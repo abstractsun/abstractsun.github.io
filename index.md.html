@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html contenteditable="true"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+</head>
+<body><pre class="noformat" style="white-space: pre-wrap;">**CursedMarkdeep**
+
+An abstractsun hack
+
+# What the heck is this???
+
+CursedMarkdeep is a low-effort fork of [Morgan McGuire's Markdeep](https://casual-effects.com/markdeep/) held together with duct tape and glue.
+
+It allows you to edit an `.md.html` file directly in a web browser, by abusing Markdeep's "noformat" mode.
+
+Pressing `Ctrl+e` on this page will enter an "editable noformat" mode, where you can edit the Markdown directly. You can then press `Ctrl+s` to save it, or alternatively press `Ctrl+e` to return to the HTML rendering mode.
+
+During saving in "editable noformat" mode, HTML line breaks (&lt;br&gt;) and &lt;div&gt; tags are destructively removed, to keep the file more readable in a text editor.
+
+# Limitations
+
+Oh boy, are there limitations!
+
+For whatever reason, Firefox's "Web Page, HTML only" saving mode doesn't save your work and just saves the original page [^cursed]. So, I have to use "Web Page, complete". This has the side-effect of Firefox copying scripts, images, or other included files in the page, and rewriting the URLs in the page. To get around this, the Markdeep script is not included directly, but is instead injected into the page using a small helper script. Markdown's convention for images also bypasses Firefox's page-saving, so this works surprisingly well!
+
+In addition, you can't write raw HTML in the noformat mode, like you would be able to when editing the file in a text editor. However, it's still possible to add arbitrary HTML via inspect element or copy-paste, so it's doable.
+
+Last of all, this editing method doesn't work from mobile devices. But in that case, it's probably best to just run `python3 -m http.server`, edit the Markdeep files the usual way, and call it a day.
+
+[^cursed]: See? I told you it was cursed!
+
+# Installation
+
+- Enter edit mode by pressing `Ctrl+e`
+- Save the page with `Ctrl+s`
+- Save the `markdeep.js` script as referenced in the page source
+
+# Why on Earth did you make this????
+
+I've never been a big wiki person. Grooming a bunch of curated links for all of my knowledge seemed like a waste of time. But the paradigm is useful on a smaller scale.
+
+My method of choice has been HTML pages. I like open standards, and the integration with the web browser fills a niche.
+
+[Markdeep](https://casual-effects.com/markdeep/) is nice. I can edit Markdown from the TUI, refresh my web browser, and get a nice, readonly HTML render.
+
+Then I discovered the [contenteditable](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/contenteditable) HTML attribute [^contenteditable]. This allowed me to edit pages in-place from the comfort of a web browser, but it was kind of janky for rich text.
+
+I then experimented with [Feather Wiki](https://feather.wiki/). It had some nice features, especially with a few plugins, and a good stylesheet, but in-place saving wasn't possible like it was for the contenteditable method, and I found myself missing the ability to edit the files in the terminal again.
+
+I thus attempted to combine the Markdeep and contenteditable methods, to create something that could be edited from both the web browser or the TUI as convenient.
+
+[^contenteditable]: I was especially inspired by [Fizer Khan's tip](https://www.fizerkhan.com/blog/posts/use-your-browser-as-notepad) to initialize a blank, editable page from a data URI. Apparently, [contenteditable](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/contenteditable) has been a thing for a long time, as well as the [&lt;details&gt;](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/details) tag.
+
+# Wait, so this is [Yak Shaving](https://wiki.c2.com/?YakShaving)?
+
+[Yes](https://xkcd.com/1319/).
+
+But I get use out of this system, I swear!
+
+<!-- Markdeep: --><script>if (document.querySelector(".markdeep-script") == null) { document.write("<script class='markdeep-script' src='./js/markdeep.js'>" + "<" + "/script>"); }</script></pre><script>window.alreadyProcessedMarkdeep||(document.body.style.visibility="visible")</script>
+
+
+
+
+</body></html>
