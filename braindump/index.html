@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html contenteditable="true"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+</head>
+<body><pre class="noformat" style="white-space: pre-wrap;">**braindump**
+
+braindump is a collection of notetaking scripts run from the command line. Downloads, source code, and documentation are [here](https://github.com/abstractsun/braindump). -- [abstractsun](../)
+
+# Why
+
+I tried [Fossil](https://fossil-scm.org/)'s issue tracker. It filled a niche, but wasn't suitable for notetaking.
+
+I also tried [Org Mode](https://orgmode.org/), but it didn't stick because it was too high overhead. I much prefer a vanilla-ish [vim](https://www.vim.org/) setup (Huge version without GUI, a few lightweight plugins). In my opinion, vim folds are nicer than Org Mode headings.
+
+I took a look at wikis, but didn't see the appeal of curating a bunch of links for notetaking. Nevertheless, I make limited use of [Markdeep](https://casual-effects.com/markdeep/) (this site is currently running using [my personal fork](../cmd/)).
+
+# How
+
+[shebangs](https://en.wikipedia.org/wiki/Shebang_%28Unix%29) are the secret sauce to braindump. They make it easy to execute the commands from the same folder.
+
+That and, lots of bash hackery, and calls to external unixy tools.
+
+<!-- Markdeep: --><script>if (document.querySelector(".markdeep-script") == null) { document.write("<script class='markdeep-script' src='../cmd/js/markdeep.js'>" + "<" + "/script>"); }</script></pre><script>window.alreadyProcessedMarkdeep||(document.body.style.visibility="visible")</script>
+</body></html>
