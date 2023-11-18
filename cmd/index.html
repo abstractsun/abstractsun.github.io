@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html contenteditable="true"><head>
+<!DOCTYPE html> <html contenteditable="true"><head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 </head>
@@ -21,19 +20,22 @@ During saving in "editable noformat" mode, HTML line breaks (&lt;br&gt;) and &lt
 
 Oh boy, are there limitations!
 
-For whatever reason, Firefox's "Web Page, HTML only" saving mode doesn't save your work and just saves the original page [^cursed]. So, I have to use "Web Page, complete". This has the side-effect of Firefox copying scripts, images, or other included files in the page, and rewriting the URLs in the page. To get around this, the Markdeep script is not included directly, but is instead injected into the page using a small helper script. Markdown's convention for images also bypasses Firefox's page-saving, so this works surprisingly well!
+For whatever reason, Firefox's "Web Page, HTML only" saving mode doesn't save your work and just saves the original page [^cursed]. So, I have to use "Web Page, complete". This has the side-effect of Firefox copying scripts, images, or other included files in the page, and rewriting the URLs in the page. To get around this, the Markdeep script is not included directly, but is instead injected into the page using a small helper script [^document.write]. Markdown's convention for images also bypasses Firefox's page-saving, so this works surprisingly well!
 
 In addition, you can't write raw HTML in the noformat mode, like you would be able to when editing the file in a text editor. However, it's still possible to add arbitrary HTML via inspect element or copy-paste, so it's doable.
 
-Last of all, this editing method doesn't work from mobile devices. But in that case, it's probably best to just run `python3 -m http.server`, edit the Markdeep files the usual way, and call it a day.
+Last of all, this editing method doesn't work from mobile devices. But in that case, it's probably best to just run a webserver on your phone, edit the Markdeep files the usual way from a text editor on said phone, and call it a day.
 
 [^cursed]: See? I told you it was cursed!
+
+[^document.write]: It uses [document.write()](https://developer.mozilla.org/en-US/docs/Web/API/Document/write), which I have heard is considered taboo. If you find another way that works better, let me know.
 
 # Installation
 
 - Enter edit mode by pressing `Ctrl+e`
 - Save the page with `Ctrl+s`
 - Save the `markdeep.js` script as referenced in the page source
+- *Optional:* Save the `markdeep.css` stylesheet as referenced in the page source, or alternatively remove the associated line.
 
 # Why on Earth did you make this????
 
@@ -58,8 +60,5 @@ I thus attempted to combine the Markdeep and contenteditable methods, to create 
 But I get use out of this system, I swear!
 
 <!-- Markdeep: --><script>if (document.querySelector(".markdeep-script") == null) { document.write("<script class='markdeep-script' src='./js/markdeep.js'>" + "<" + "/script>"); }</script></pre><script>window.alreadyProcessedMarkdeep||(document.body.style.visibility="visible")</script>
-
-
-
-
+<!-- Optional page style: --><script>if (document.querySelector(".markdeep-style") == null) { document.querySelector("head").innerHTML += "<link rel='stylesheet' class='markdeep-style' href='./css/markdeep.css'" + " " + "/>"; }</script>
 </body></html>

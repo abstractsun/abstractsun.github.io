@@ -5404,6 +5404,14 @@ function _createForOfIteratorHelper(o,allowArrayLike){var it;if(typeof Symbol===
         script.parentElement.removeChild(script);
     }
 }
+// Added - abstractsun - remove injected Markdeep stylesheets from the body
+{
+    let scripts = document.querySelectorAll(".markdeep-style");
+    for (let i = 0; i < scripts.length; i++) {
+        let script = scripts[i];
+        script.parentElement.removeChild(script);
+    }
+}
 
 // The following is for emacs. It must be at the end of the file and is
 // needed to preserve the BOM mark when editing in emacs. The begin and
