@@ -9,17 +9,53 @@ braindump is a collection of notetaking scripts run from the command line. Downl
 
 # Why
 
-I tried [Fossil](https://fossil-scm.org/)'s issue tracker. It filled a niche, but wasn't suitable for notetaking.
+I had a problem which could be best summed up as, "too many notes".
 
-I also tried [Org Mode](https://orgmode.org/), but it didn't stick because it was too high overhead. I much prefer a vanilla-ish [vim](https://www.vim.org/) setup (Huge version without GUI, a few lightweight plugins). In my opinion, vim folds are nicer than Org Mode headings.
+Some notes were just, all over the place: Stored in random files, stored in email/instant messaging, et cetra. Notes fortunate to have a home were poorly organized. To a certain extent, this was a lack of discipline on my part which improved over time. But even with the best of intentions, stuff would get lost.
 
-I took a look at wikis, but didn't see the appeal of curating a bunch of links for notetaking. Nevertheless, I make limited use of [Markdeep](https://casual-effects.com/markdeep/) (this site is currently running using [my personal fork](../cmd/)).
+I also have random thoughts a lot, and these need to go somewhere.
 
-# How
+Some of these issues could be addressed by a better file naming system. I also needed better organization within the files themselves.
 
-[shebangs](https://en.wikipedia.org/wiki/Shebang_%28Unix%29) are the secret sauce to braindump. They make it easy to execute the commands from the same folder.
+# What I tried
 
-That and, lots of bash hackery, and calls to external unixy tools.
+I have tried numerous tools, most notably a text editor by itself, [Fossil](https://fossil-scm.org/)'s issue tracker, [Org Mode](https://orgmode.org/), and [Markdeep](https://casual-effects.com/markdeep/). I do still use all of these certain situations (in particular, (this site is currently running using [my personal fork of Markdeep](../cmd/)). However, they fell short for one or more of these reasons:
+
+- Too high upfront cost to creating notes. I didn't want to have to think about what to name a file, what metadata to add, or what org mode syntax to use.
+- Too many distractions when creating the note, such as the contents of other notes, or the distracting visual clutter of org mode syntax.
+- Too many limitations/too rigid (again... looking at you, org mode)
+- The issue that I write something down and forget that it exists.
+- I just like [vim](https://www.vim.org/) better! In particular, I prefer a vanilla-ish vim setup (Huge version without GUI, a few lightweight plugins). In my opinion, vim folds are nicer than org mode headings.
+
+# How it works
+
+[shebangs](https://en.wikipedia.org/wiki/Shebang_%28Unix%29) are the secret sauce to [braindump](https://github.com/abstractsun/braindump). They make it easy to execute the commands from the same folder. To illustrate, one could type `ls` in the braindump root directory, and get the following files and folders:
+
+```
+$ ls
+idea   log   note   pin  queue   scratch  tag   tasks  triage
+ideas  logs  notes  qr   remind  sync     task  todo
+```
+
+`./note` just opens vim to a timestamped file and moves my cursor to the bottom of the file. I write the note and then quit vim.
+
+The shebangs work inside vim, too, allowing for some nice synergies, for example:
+
+```vim
+:split `./queue ?`
+:term mv -iv `./task weekend ?` tasks/archived
+:!./qr
+:!./remind parse
+```
+
+As for the implementation, it's lots of bash hackery, and calls to external unixy tools.
+
+Overall, braindump works for me, because:
+
+- Much less overhead to open a file in my text editor of choice
+- `./triage` conditionally guarantees my more disorganized, random notes get reviewed eventually, provided that I have the discipline to run the command, and the discipline to not create more randomness than I can review.
+- No unnecessary upfront structure
+- Syncs with git!
 
 <!-- Markdeep: --><script>if (document.querySelector(".markdeep-script") == null) { document.write("<script class='markdeep-script' src='../cmd/js/markdeep.js'>" + "<" + "/script>"); }</script></pre><script>window.alreadyProcessedMarkdeep||(document.body.style.visibility="visible")</script>
 <!-- Optional page style: --><script>if (document.querySelector(".markdeep-style") == null) { document.querySelector("head").innerHTML += "<link rel='stylesheet' class='markdeep-style' href='../cmd/css/markdeep.css'" + " " + "/>"; }</script>
