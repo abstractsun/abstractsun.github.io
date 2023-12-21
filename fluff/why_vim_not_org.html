@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html contenteditable="true"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+</head>
+<body><pre class="noformat" style="white-space: pre-wrap;">**Why I use vim and not Org Mode**
+
+-- [abstractsum](../)
+
+# Introduction
+
+Criticizing a rival operating system[^emacs_os][^rival_os] is like tempting fate. For this reason, I acknowledge that criticizing [Org Mode](https://orgmode.org/) gives [Emacs](https://www.gnu.org/software/emacs/) additional mindshare by proxy, which increases the probability that I will use Emacs in the future. I am resigned to this possibility.
+
+In the typical fashion of the Emacs community, I am increasing the quantity of Emacs-themed bloviations, whose quantity shall inevitably increase toward infinity. The irony is not lost on me. In spite of my efforts, I cannot hope to achieve the prolific lengths of the essays of auspicious Emacs influencers, for I am but a lowly vim user. I criticize Org Mode here, mainly to meme on the Emacs community, but my criticisms of Org Mode are nonetheless my genuine opinions. (And, I guess other vim users may find them informative.)
+
+To clarify: I am criticizing Org Mode as included in the non-GUI verson of Emacs, and my point of comparison is [upstream vim](https://www.vim.org/), Huge version without GUI. I am not talking about [neovim](https://neovim.io/). YMMV.
+
+[^emacs_os]: As the saying goes (and I paraphrase): "Emacs is a great operating system! If only it had a good text editor..."
+
+[^rival_os]: vim is not an operating system, but bash probably is. ([vim plus bash](https://www.gnu.org/gnu/incorrect-quotation.en.html))
+
+# Outlining
+
+Org outlines seem to be a popular feature of Org Mode, and I don't see the appeal when the "indent" `foldmethod` exists in vim. It's cleaner and easier to edit, especially with deeply nested outlines which I am prone to, and vim has nice keybinds for working with folds and moving indented text around (ex: pasting to match indentation of current line).
+
+vim's folds are highly configurable, too. They aren't just for outlines, and folding rules can be stored in the file via a modeline.
+
+Searches will open vim folds for you as well, which is *very* handy, especially when starting vim from a script.
+
+Org outline filtering is nice, but... why not just use search, grep, and/or vim's quickfix list?
+
+# Exporting
+
+The `.org` format supports many export formats. However I much prefer using Markdown because it allows me to inline HTML directly in the Markdown file, which is cleaner to write. There are also lots of publishing tools for working directly with Markdown ([pandoc](https://pandoc.org/) comes to mind), so I don't find myself wanting.
+
+The only format I care about, that Org Mode in particular can export to, is iCalendar. But I haven't found Org Mode to be a pleasant tool for scheduling.
+
+# Scheduling
+
+For me, this is very much a, "use the best tool for the job" thing, and Org Mode really just isn't a good tool for scheduling, compared to a modern graphical calendar. The way timestamps are entered, as well as the display of the schedule, are both unpleasant to work with, especially on a small TUI window.
+
+The lack of a good system for scheduling multiple reminders in Org Mode is also annoying, especially given that it's part of the iCalendar spec[^valarm].
+
+[^valarm]: See VALARM in [RFC 5545](https://www.rfc-editor.org/rfc/rfc5545.html)
+
+# Code blocks
+
+For short snippets of code to be run once, [Org Babel](https://orgmode.org/worg/org-contrib/babel/intro.html) is not needed. In vim, I can execute a shell snippet and output the result by selecting the line(s) and typing, `:!bash --`
+
+# Links
+
+vim can jump to files, files at specific line numbers, and unique keywords in the same buffer, from any buffer regardless of file type, without a plugin. This is useful for a lot of cases. When in doubt, opening any file or URI is just an [xdg-open wrapper](https://github.com/abstractsun/misc-tools/blob/master/xopen) away.
+
+# Inbox
+
+Org Capture is a centralized system. Notes go to a specific file in the home directory, for example. There is no concept of a working directory.
+
+Like anything Org, it's extendable. But the feature doesn't do all that much on its own. It's essentially a modal pop-up for inserting or pasting things. It's replaceable with a bash script.
+
+# "Have you tried using Org Mode?"
+
+I like this question because it's an excellent [nerd snipe](https://xkcd.com/356/) for any programmer that has fallen into the tooling rabbit hole. The answer to the question is, not surprisingly, "yes." And, for the most part, I did not find it useful.
+
+That said, I have found the yearly online [EmacsConf](https://emacsconf.org/) to be interesting, and it appears to have no vim analog. I find myself at times fascinated by what people do in Emacs, and at other times horrified by the complex hacks people do to configure Emacs to do certain things.
+
+Org Mode is, to me, like a "professor's notetaking system." I see the appeal, but it's just not right for the workflows I want. I will continue to observe the Emacs ecosystem from afar.
+
+# In Conclusion
+
+[vim](https://www.vim.org/about.php).
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+jk, just use whatever you want, lol.
+
+<!-- Markdeep: --><script>if (document.querySelector(".markdeep-script") == null) { document.write("<script class='markdeep-script' src='../cmd/js/markdeep.js'>" + "<" + "/script>"); }</script></pre><script>window.alreadyProcessedMarkdeep||(document.body.style.visibility="visible")</script>
+<!-- Optional page style: --><script>if (document.querySelector(".markdeep-style") == null) { document.querySelector("head").innerHTML += "<link rel='stylesheet' class='markdeep-style' href='../cmd/css/markdeep.css'" + " " + "/>"; }</script>
+</body></html>
