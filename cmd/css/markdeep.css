@@ -189,3 +189,19 @@ a:nth-of-type(7n) {
 a:nth-of-type(7n):hover {
     background: #f4ffe8;
 }
+
+/* Cool background */
+
+html {
+    background: linear-gradient(0deg,#5899a7 0%, #a3a3a3 100%);
+    background-attachment: fixed;
+    height: 100%;
+}
+
+body {
+    background: white;
+    margin: 20px auto;
+    border-radius: 3px;
+    box-shadow: white 0px 0px 5px 5px;
+    padding: 40px;
+}
