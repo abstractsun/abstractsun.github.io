@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html contenteditable="true"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+</head>
+<body><pre class="noformat" style="white-space: pre-wrap;">**Android Survival Guide**
+
+_"Do the technical limitations of Android make you angry? This article is for you."_ --[abstractsun](../)
+
+# Termux
+
+[Termux](https://termux.dev/en/) is such a great app that it deserves its own section.
+
+It has a package manager[^unix_system][^not_a_unix_system]. 'nuff said.
+
+If you anticipate not reading through this guide (no judgement), I recommend downloading Termux right now.
+
+Termux is more powerful than it appears at first glance. It's annoying that not all features are easily discovered within the app. But, chances are, the feature you want is documented somewhere.
+
+Termux has many use cases. Some of the stuff in this guide was made possible for me thanks to Termux.
+
+[^unix_system]: [It's a unix system! I know this!](https://www.youtube.com/watch?v=dFUlAQZB9Ng)
+
+[^not_a_unix_system]: Yea, yea, I know, [not a *real* unix system](https://en.wikipedia.org/wiki/Unix-like)
+
+# Other Great Apps
+
+Other apps to check out:
+
+- Firefox - The Android version supports popular add-ons.
+- F-Droid - An alternative app store. Good for finding FOSS alternatives to some common apps.
+- Markor - Good text editor, highly configurable
+- A file manager - Your Android system may already have an app for this
+- A FOSS OTP app - OTP is a general term for what Google Authenticator and Microsoft Authenticator are doing under the hood - consider one with import/export support.
+
+# Manually transfer Android files over USB
+
+Android has a filesystem. Part of that filesystem can be accessed from your computer over USB. You might need to install a driver/special software on your computer.
+
+It's not as seamless as a USB drive, but works for simple cases.
+
+# Send single files between devices with this one weird trick!
+
+([XKCD 949](https://xkcd.com/949/) moment)
+
+If USB isn't an option (or simply not preferred), consider Magic Wormhole.
+
+# QR Codes
+
+I like this method for small pieces of text.
+
+`qrencode` can be used to create QR codes from the command line. If the text has special characters that QR codes don't like, you can get around this issue by encoding the string as base64 first.
+
+QR reader apps are easy to find on any OS.
+
+# Android localhost servers
+
+Believe it or not, it is possible to run a server on Android. But [probably not for the low port numbers](https://www.w3.org/Daemon/User/Installation/PrivilegedPorts.html), because Android is Linux-based, and you probably don't have root on your Android OS. And don't expect the server to communicate with the outside world, either.
+
+Nevertheless, there are good use cases for running on localhost such as server testing, running a web app, or a custom frontend for scripts. Any webserver you run can be accessed from your web browser app's address bar. It is also possible to create a script in Termux which tells the default web browser to open a localhost URL automatically.
+
+Termux has various server software in its package manager, like nginx and fossil.
+
+# Git/ssh
+
+Termux can use git and/or connect to a server over ssh. It works quite well.
+
+For a git repository, it doesn't matter if the repository is on a code forge, or self-hosted.
+
+# Connect Android directly to a computer over wifi
+
+This is an interesting connectivity method that I have to share. The Android device connects to the computer directly, no cable or internet access required. I've used this to connect to a webserver and an ssh daemon running on the computer, but I'm sure a lot of other servers could work. The downside is that the computer cannot connect to wifi at the same time.
+
+1. Run a server on your computer
+2. Configure your computer's firewall to allow incoming traffic to the port(s) your server is running on
+3. Set your computer as a wifi hotspot
+4. Connect your Android device to your computer as your wifi connection
+5. Figure out the IP address your computer assigned to itself (ex: by running `ifconfig` on your computer)
+6. Connect your client running on Android to the server using the IP address from the previous step
+
+# Tools I haven't tried
+
+These tools are pretty advanced and may not work.
+
+## Root Emulation (sort of)
+
+A useful tool that may be used to get around some limitations of non-root android is proot, which can "emulate chroot, bind mount and binfmt_misc for non-root users," [^pkg_search_proot] at the cost of some performance overhead.
+
+Termux issue commenters [have considered it](https://github.com/termux/termux-app/issues/1072#issuecomment-474509677) as a workaround for theoretical future Android platform restrictions.
+
+Possibly useful for those, "this is why this software only works on Linux" kinds of problems?
+
+[^pkg_search_proot]: `pkg search proot` in Termux
+
+## VPNs/DNS/NAT workarounds
+
+Mobile devices have some... interesting networking problems. A few potentially useful, related tools that I haven't tried:
+
+- [Mosh](https://mosh.org/) - An openssh alternative for flaky networks.
+- [Wireguard](https://www.wireguard.com/) - General-purpose. Can keep connections open through firewall and NAT via keepalive packets. "It is even capable of roaming between IP addresses, just like Mosh."
+- Tor hidden service - Rumored reliable. Probably slow.
+
+## Rooting Android
+
+This has lots of consequences that I won't get into, but it lets you actually be an admin on your Android computer.
+
+# Conclusion
+
+I hope these tools give you ideas of how to make better use of your Android computer, and help you feel more like you are controlling Android rather than the other way around. I don't forsee Android replacing Linux desktop, but I enjoy using my Android device more.
+
+To conclude, here is a randomly generated bonsai plant from `cbonsai`, which is also available in the Termux package manager:
+
+<pre>
+                   &
+                  & & &
+                  &&&&&&&  &
+             &&/&&&&&&&&&
+        & &&&&&&&&&&&&&&&          &
+             &&&&|& |/ &       & &&
+               &&&/\|           && &
+                 /~\/|\   && &&&&
+                 /~|__|\  &&/ &&&&
+          &    /|&\|/|/ &&&     &
+         && &&&\& |/|/_/__/
+     &  && &&&&& /~||\
+        &  &&&&&&&\\|
+     & &&&&&&\\_ \|\/|\
+     &&&\&&&&\__\_ \/~|\
+    &&&&  &&         /~|
+       &                /~|\
+                        \/~|
+                          //~
+                          /~/~
+            :___________./~~~\.___________:
+             \                           /
+              \_________________________/
+              (_)                     (_)
+</pre>
+<!-- Markdeep: --><script>if (document.querySelector(".markdeep-script") == null) { document.write("<script class='markdeep-script' src='../cmd/js/markdeep.js'>" + "<" + "/script>"); }</script></pre><script>window.alreadyProcessedMarkdeep||(document.body.style.visibility="visible")</script>
+<!-- Optional page style: --><script>if (document.querySelector(".markdeep-style") == null) { document.querySelector("head").innerHTML += "<link rel='stylesheet' class='markdeep-style' href='../cmd/css/markdeep.css'" + " " + "/>"; }</script>
+</body></html>
