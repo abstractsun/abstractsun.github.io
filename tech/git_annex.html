@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html contenteditable="true"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+</head>
+<body><pre class="noformat" style="white-space: pre-wrap;">**Using git-annex for lightweight git checkouts**
+
+_"[git-annex](https://git-annex.branchable.com/) is an interesting tool for managing large files if you're already using [git](https://git-scm.com/)."_ --[abstractsun](../), 2024
+
+# Motivation
+
+I have a private, unpublished website, which I use as a hub for useful links and files.
+
+I already use git, so git was a natural choice for syncing. But I didn't want to copy the entire website to my Android device, because it took up a lot of disk space. git is also known to have scalability issues with large files.
+
+# Introducing git-annex: The hacker's large file syncing tool
+
+The current trendy way to store large files in git these days in an efficient manner is [git-lfs](https://git-lfs.com/).
+
+It just so happens that [git-annex](https://git-annex.branchable.com/) markets itself as a direct competitor!
+
+From [the git-annex website's "not" page](https://git-annex.branchable.com/not/):
+
+*"git-annex is not git-lfs, which also uses git smudge filters, and appears to lack git-annex's widely distributed storage and partial checkouts"*
+
+And from the git-annex manpage:
+
+*"annexed files can co-exist in the same git repository with regularly versioned files, which is convenient for maintaining documents, Makefiles, etc that are associated with annexed files but that benefit from full revision control"*
+
+In short, git-annex lets you commit large files without the performance limitations of git, just like git-lfs, but with more fine-grained control over moving files around, and more importantly tracking where those files are.
+
+# Technical benefits and caveats
+
+Another benefit of git-annex is you don't have to use a separate, specialized lfs server. git-annex can sync directly over the filesystem or over an [https](https://git-annex.branchable.com/tips/setup_a_public_repository_on_a_web_site/)/ssh server you control (including [gitolite](https://git-annex.branchable.com/tips/using_gitolite_with_git-annex/)), just like git remotes.
+
+git-annex works best with symbolic links, but can still work without them. Also, the popular code forges don't support git-annex directly, but git-annex has many file syncing backends and is not limited to the git protocol (see [centralized repository tutorial](https://git-annex.branchable.com/tips/centralized_git_repository_tutorial/)).
+
+To git-lfs's credit, it is better suited out-of-the-box for the, "I just want to clone the entire repository" use case (or the sparse checkout equivalent). It's also not too hard to run and/or compile an lfs server [such as this reference implementation](https://github.com/git-lfs/lfs-test-server), but running an lfs server on an open port is an extra security burden you probably don't want.
+
+As far as platform support goes, both are available through various package managers. However, for git-annex on Android, see [the official Android installer](https://git-annex.branchable.com/Android/), which is suitable for running inside Termux.
+
+# Syncing individual files
+
+For my use case, I generally know exactly what files I want to sync on my device, and I want to enqueue these file requests asynchronously. I'm still new to git-lfs, but this is what worked for me so far.
+
+First, I update update the list of files tracked by git-annex while I'm online. By default, this command doesn't transfer files:
+
+```bash
+git annex sync
+```
+
+But I noticed that `git annex sync` spent too much time trying to connect to remotes over ssh/https that were offline, so I had to tell git-annex to ignore them:
+
+```bash
+git config --local remote.[remote_to_ignore].annex-ignore true
+```
+
+To request a file tracked by git-annex while offline:
+
+```bash
+git annex get [file] --from=[remote]
+```
+
+This command reports failure, but that's fine, because git-annex has recorded the "get" as "recently failed" (per the git-annex-get manpage).
+
+Once I am connected to the remote which has the files previously requested, I can, in principle, download all the files previously requested:
+
+```bash
+git annex get --failed
+```
+
+I hope to semi-automate this in the near future, and maybe make use of `git annex move --failed`.
+
+# Footguns
+
+`git annex sync --content` syncs all the files tracked by git-annex in the repository by default, which may or may not be what you want. See `git-annex-wanted` for how to configure filters for that. Or alternatively, see [git annex's other workflows](https://git-annex.branchable.com/workflow/).
+
+If you're the sort of person who has `rm -Irf .git` or similar in muscle memory, this can cause data loss for git-annex repositories. If you're using git-annex with symlinks, local file content will be stored in the .git folder.
+
+For these reasons and probably others, git-annex is an additional layer of complexity which novice git users may not want.
+
+# Git merge with unrelated histories
+
+I have found git-annex to work fine after using `git-merge`'s `--allow-unrelated-histories` flag, which was important for my use case.
+
+`git annex init` was run on both repositories beforehand, and the repository being merged into did not have any annexed files yet. YMMV.
+
+# A happy Android user
+
+I am pleased with git-annex on my Android device so far. It allowed me to mirror my private website to it without disrupting the file structure or downloading all the large files.
+
+In the future, I may explore replacing some common use cases involving transferring files over USB. I may also explore a [denote](https://github.com/protesilaos/denote)-style file naming scheme for better annotating files pending transfer.
+
+# Special Remotes
+
+One last shout-out to git-annex's [special remotes](https://git-annex.branchable.com/special_remotes/) feature. One of the real killer features of git-annex, which I haven't used just yet, is the ability to store and/or retrieve files from outside the repository. Such as:
+
+- Local or remote file storage
+- [URLs, podcasts, and YouTube videos](https://git-annex.branchable.com/tips/using_the_web_as_a_special_remote/)
+- A [git-lfs server](https://git-annex.branchable.com/special_remotes/git-lfs/) (in a cursed way)
+
+For most remotes you can upload files to, git-annex [can be configured to encrypt the remote's file contents](https://git-annex.branchable.com/encryption/).
+
+You can also [publish your git annex on your own webserver](https://git-annex.branchable.com/tips/setup_a_public_repository_on_a_web_site/), and/or clone them. This works for regular git repositories also.
+
+
+<!-- Markdeep: --><script>if (document.querySelector(".markdeep-script") == null) { document.write("<script class='markdeep-script' src='../cmd/js/markdeep.js'>" + "<" + "/script>"); }</script></pre><script>window.alreadyProcessedMarkdeep||(document.body.style.visibility="visible")</script>
+<!-- Optional page style: --><script>if (document.querySelector(".markdeep-style") == null) { document.querySelector("head").innerHTML += "<link rel='stylesheet' class='markdeep-style' href='../cmd/css/markdeep.css'" + " " + "/>"; }</script>
+</body></html>
