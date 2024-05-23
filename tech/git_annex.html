@@ -75,7 +75,7 @@ I hope to semi-automate this in the near future, and maybe make use of `git anne
 
 `git annex sync --content` syncs all the files tracked by git-annex in the repository by default, which may or may not be what you want. See `git-annex-wanted` for how to configure filters for that. Or alternatively, see [git annex's other workflows](https://git-annex.branchable.com/workflow/).
 
-If you're the sort of person who has `rm -Irf .git` or similar in muscle memory, this can cause data loss for git-annex repositories. If you're using git-annex with symlinks, local file content will be stored in the .git folder.
+If you're the sort of person who has `rm -Ir .git` or similar in muscle memory, this can cause data loss for git-annex repositories. If you're using git-annex with symlinks, local file content will be stored in the .git folder.
 
 For these reasons and probably others, git-annex is an additional layer of complexity which novice git users may not want.
 
