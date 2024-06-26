@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html contenteditable="true"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+</head>
+<body><pre class="noformat" style="white-space: pre-wrap;">**Windows Survival Guide**
+
+[abstractsun](../): This is an opinionated guide to making Windows 10 feel more like home, assuming that home includes a Unix-like command line/TUI.
+
+# Git for Windows: A Cautionary Tale
+
+As with all things command line, the [git command line](https://git-scm.com/) is a great way to learn git if you are willing to put in the time to learn it, ask a few questions here and there, and generally [RTFM](https://wiki.c2.com/?RtFm). However, the default distribution of git on Windows, known as [Git for Windows](https://git-scm.com/download/win), is, by design, a highly minimal Unix-like environment, which excludes a lot of quality-of-life features.
+
+One notable example is vim. The version of vim that ships with Git for Windows is a "tiny" distribution, with a lot of features disabled. It doesn't include the `:help` manual, and if you're invoking vim through git, your buffer will already be filled, so you won't see the splash screen with exit instructions (assuming the splash screen is even included). This may partially explain why so many programmers [have trouble exiting vim](https://stackoverflow.com/questions/11828270/how-do-i-exit-vim).
+
+Overall, Git for Windows gives the illusion that you are using a full Unix-like environment on Windows, but can leave the impression that a Unix-like environment is feature-poor, and even more difficult to learn than it would be otherwise.
+
+By contrast, MSYS2 provides the full feature-rich and documented environment and toolset that you'd want on a Unix-like command line, with the same solid base.
+
+# MSYS2
+
+[MSYS2](https://www.msys2.org/) lets you use your Windows machine like a Unix-like system. Git for Windows is based on MSYS2. MSYS2 is in turn based on [Cygwin](https://cygwin.com/), which you may prefer over MSYS2 in some situations.
+
+A package manager, gcc, bash, git, vim, emacs, man, less, apropos, tmux, python: It's all in there! (contingent on installing some packages)
+
+There are several reasons I prefer MSYS2 over other tools, particularly in a command line environment:
+
+- You can create real Windows binary applications with the MINGW64 version of gcc, which can run outside of MSYS2
+- It has a real package manager, pacman
+- It can interact with Windows
+- Less buggy than scoop
+
+Cygwin is similar to MSYS2 in most ways. There are some differences:
+
+- Binary applications created within Cygwin must run within Cygwin
+- Simpler default configuration, and the default `$PATH` makes it easier to run some Windows software by default.
+- The installer is not a real package manager IMO, and is generally less pleasant to use. (but you can still install and update packages)
+- More Linux-like
+- Package manager has a wider variety of packages
+
+# MSYS2 installation tips
+
+- Regarding antivirus:
+    - Don't use third-party antivirus. Windows has its own antivirus now
+    - If you MUST use a third-party antivirus, make sure to whitelist MSYS2's installation folder, to prevent unfortunate accidents and/or performance issues
+- For best performance, install MSYS2 on a drive other than the default `C:\ ` drive[^UAC]. If you don't have a separate drive partition, consider creating one using diskpart. **NOTE:** I am not responsible for data loss arising from your misuse of diskpart or other tools.
+- You can install and try as many terminal emulators as you want
+
+[^UAC]: The fast cache for disk I/O is disabled on the `C:\ ` drive on Windows due to an overzealous bug in UAC (system folder protection). It hasn't been fixed in years, probably for legacy/security reasons. This leads to poor I/O performance, especially in Unix-like environments like MSYS2 and Cygwin, which frequently access large amounts of filesystem inodes.
+
+# Choosing the Terminal Emulator
+
+I use mintty, the terminal emulator which ships with MSYS2 and Cygwin. I use tmux to get around mintty's lack of tabs [^tabception]. Your preferences may be different, so consult the following table of a few terminal emulators I've used:
+
+&nbsp; | TUI fill rate | Tabs | Colors | Emoji | Bell | Customizability
+-|-|-|-|-|-|-|-
+**mintty** | fast | No | Built-in themes | Yes | Yes |  Good
+**mintty + tmux** | moderate | via tmux | Built-in themes | Sometimes | Yes | Good
+**ConEmu** | moderate to slow | Yes | Auto-theme + easy to read | No | Yes | Great
+**Windows Terminal** | very fast | Yes | Pick colors + hard to read | Yes | No | Good but bad UX
+
+There are a few other rumored good terminal emulators for Windows that I haven't tried.
+
+If you plan on trying tmux, I recommend disabling the mouse. This frees up the mouse to interact with mouse-enabled TUI software within tmux, for clicking, dragging, and scrolling.
+
+[^tabception]: And then I run vim with tabs inside of tmux, so I get tabs within tabs. [Tabception](https://knowyourmeme.com/memes/subcultures/inception)!
+
+# Which MSYS2 environment?
+
+I recommend the following environments:
+
+- MINGW64: I recommend using this environment as a daily driver
+    - Good for interacting with Windows software. Widely tested.
+    - Any MSYS2 environment programs can also be used here, unless overridden with an MINGW64-specific binary
+    - This environment's gcc can compile true Windows native binaries linked against the Windows ABI. You can also use clang instead ([with caveats](https://www.msys2.org/docs/environments/)).
+- MSYS2: Use this environment for more Unixy things.
+    - More Unix-related software will successfully compile, but the resulting binaries will be dependent on the MSYS2 runtime. Any software you compile here can be used from the MINGW64 environment.
+    - I use this environment when running the package manager, pacman
+
+I don't recommend the [other environments](https://www.msys2.org/docs/environments/), as they are for more specific Windows development use cases.
+
+# Windows/MSYS2 interoperability
+
+## Unix-style paths
+
+In Unix-like systems, path directories are delimited by forward slashes (`/`), and the [Filesystem Hierarchy Standard](https://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard) is used as a guideline for how to lay out files on the system.
+
+MSYS2 and Cygwin try to follow these conventions:
+
+- Windows paths are converted to forward-slash equivalents. You can use `cygpath` to convert between the two. This might be necessary to, for example, pass in a path string as an argument to a Windows application.
+- Their filesystem roughly follows the Filesystem Hierarchy Standard
+
+## Running a specific Windows program
+
+Running a Windows program from MSYS2 is pretty straightforward. For example, to open a text file in [Notepad++](https://notepad-plus-plus.org/):
+
+```
+[PATH_TO_NOTEPAD++_EXE] my_text_file
+```
+
+Where `[PATH_TO_NOTEPAD++_EXE]` uses the Unix-like path to Notepad++
+
+Unlike on Linux, most Windows GUI software invoked from a shell doesn't try to pipe their output to stdout, and they aren't attached to the parent shell process. So, you generally won't have to [write a wrapper script](https://github.com/abstractsun/misc-tools/blob/master/xopen) to fix that issue.
+
+## Opening files and folders with the default program
+
+To open a file with the default program used outside of MSYS2[^cygstart]:
+
+```
+start "$(cygpath -w [UNIX_FILE])"
+```
+
+Where `[UNIX_FILE]` is the path to the executable[^cygpath_unix_file] using the the MSYS2/Cygwin path convention.
+
+To open a folder in Windows Explorer:
+
+```
+cd [UNIX_DIR]
+start .
+```
+
+[^cygstart]: In Cygwin, use `cygstart` in place of `start`
+
+[^cygpath_unix_file]: TODO: Figure out if this requires a fully-qualified path
+
+## Line endings
+
+In text file formats (such as plaintext, json, or xml), Windows line endings are CRLF, while Unix line endings are LF. This is a source of confusion. Because MSYS2 and Cygwin are Unix-like environments, their software usually outputs LF line endings.
+
+See also the git config option `core.autocrlf`
+
+## Get to know your `$PATH`
+
+The programs you can invoke from the command line (without resorting to a fully-qualified path) are determined by your `$PATH`. Your `$PATH` can be appended to by editing ~/.bashrc
+
+As previously mentioned, MSYS2's `$PATH` is more restricted than Cygwin by default.
+
+# Python
+
+The python interactive mode for MSYS2 has GNU readline-like functionality. It's nice!
+
+However, as a general rule, you should treat your Python installations from within MSYS2 as if you're on a different operating system. Using non-MSYS2 Python environments from within MSYS2 is potentially more complicated[^python_environment].
+
+[^python_environment]: See also: [XKCD 1987](https://xkcd.com/1987/).
+
+# ssh-agent
+
+I have heard that the system ssh-agent for Windows a pain to set up. If you've figured out how to set it up, then this section is likely not useful for you except in specific situations.
+
+Assuming you have `ssh` installed:
+
+```sh
+ssh-agent $SHELL
+```
+
+...will start a new shell session with your default shell, wrapped inside an ssh-agent. You can `ssh-add`, `ssh-add -l`, `ssh`, `git push`, and all the other usual ssh-related commands. When you exit this shell session, the ssh-agent exits too.
+
+This new ssh-agent process has a separate list of identities which is initially empty, which may be useful if you like to ssh into different places and your tool is using the wrong ssh key for some reason[^ssh_key_workaround].
+
+[^ssh_key_workaround]: Alternatively, ssh and/or git can be configured to use specific ssh key credentials.
+
+# Clipboard
+
+MSYS2 and Cygwin support the clipboard, yay!
+
+You can also script copy and paste by reading and writing from `/dev/clipboard`. This, oddly enough, does not have an equivalent on Linux.
+
+# How to compile cbonsai for MSYS2
+
+The Cygwin package manager already has a package for [cbonsai](https://gitlab.com/jallbrit/cbonsai/). Sadly, MSYS2 does not (at least not yet). Let's use this as an opportunity to test MSYS2's capabilities, by compiling cbonsai from source.
+
+- Open an MSYS2 environment terminal (not MINGW64)
+- Acquire the [cbonsai](https://gitlab.com/jallbrit/cbonsai/) source code
+- Install necessary development packages
+    - gcc
+    - make
+    - msys2-runtime-devel[^ncurses]
+- Run `make` from the top-level directory of the cbonsai source
+- Run the newly compiled cbonsai binary to verify that it works! 🌳
+- Optional: Run `make install`, or install the program manually as desired
+    - Do note: This is an MSYS2 binary, not an MINGW64 binary, so it cannot run outside of MSYS2[^cbonsai_msys2].
+    - If running `make install`, you *may* need to invoke the command `mandb` in order for `man` and `apropos` to detect the new cbonsai manpages
+
+[^ncurses]: I *think* this satisfies the ncurses dependency, but it's been a while since I compiled cbonsai in MSYS2, so I'm not 100% sure
+
+[^cbonsai_msys2]: Similar limitations exist for the Cygwin package. I tried compiling cbonsai in MINGW64, but I was not successful.
+
+# Other notable software
+
+- [Ventoy](https://www.ventoy.net/en/index.html) - Robust tool for booting one or more operating systems or OS installers from a USB drive. Just drag and drop the ISO file(s) into Ventoy's boot folder, and Ventoy's boot menu will show them in a list. No need to flash the individual ISOs.
+- [qBittorrent](https://www.qbittorrent.org/) - Torrenting program that I've heard is better than alternatives. Available in MSYS2's package manager.
+
+# Conclusion
+
+Phew, this was a long and dense article, primarily about getting a Unix-like command line set up on Windows. Let's recap:
+
+- Getting a good Unix-like command line environment set up on Windows is not easy
+    - Coming from Windows, there are a lot of choices with different tradeoffs
+    - Coming from Linux, there are missing features by default that one may otherwise take for granted
+- MSYS2 can interoperate with Windows software, while also supporting more Unix-related tools
+    - MINGW64's gcc can create true Windows native binaries linked against the Windows ABI
+    - Cygwin is a similar alternative to MSYS2 with some pros and cons, most notably the inability to create true Windows binaries. However, if your main use case is a Unix-like command line utility environment, this may not matter to you.
+
+<!-- Markdeep: --><script>if (document.querySelector(".markdeep-script") == null) { document.write("<script class='markdeep-script' src='../cmd/js/markdeep.js'>" + "<" + "/script>"); }</script></pre><script>window.alreadyProcessedMarkdeep||(document.body.style.visibility="visible")</script>
+<!-- Optional page style: --><script>if (document.querySelector(".markdeep-style") == null) { document.querySelector("head").innerHTML += "<link rel='stylesheet' class='markdeep-style' href='../cmd/css/markdeep.css'" + " " + "/>"; }</script>
+</body></html>
