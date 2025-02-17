@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html contenteditable="true"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+</head>
+<body><pre class="noformat" style="white-space: pre-wrap;">**Using the Homebrew package manager on Linux**
+
+[abstractsun, 2025](../): I like my base operating system to be a stable Linux distro, but sometimes packages can be out-of-date. [Homebrew](https://brew.sh/) fills a niche for certain software.
+
+# What is Homebrew?
+
+[Homebrew](https://brew.sh/) is the de-facto package manager for MacOS. It works like a system package manager, while still maintaining clear separation from your system files. It can download binaries for a package if they are available for your system, but if necessary can compile from source.
+
+On its website, Homebrew shamelessly plugs that it can be used on Linux too.
+
+# Motivation
+
+Homebrew is not the first choice for a Linux user. Most essential packages can be downloaded and easily updated from the system package manager or via Flatpak. And downloading from the internet, or even compiling from source, are generally options.
+
+However, I encountered a package which could not reasonably be expected to be up-to-date in a stable Linux distro, because it relied on rapidly evolving proprietary web technologies (iykyk). I needed an easy mechanism to update it from a trusted source.
+
+Trust was important to me. There are projects attempting to bring the [AUR](https://aur.archlinux.org/) to other Linux distros, however the maintainers of these projects end up having to host their own mirror of the AUR packages, and much of its target audience would rather use Arch Linux instead. By contrast, Homebrew benefits from the larger MacOS developer and power user community, which likely receives more scrutiny.
+
+I think the [Nix](https://nixos.org/) package manager would have also been a viable option for my use case, because it benefits from the established NixOS community. However, it's rumored that packages tend to be more out-of date, and generally rough around the edges compared to Homebrew. It may be a better option for some more advanced use cases.
+
+# First Impressions
+
+I installed Homebrew, downloaded a package, and it worked. It even installed the manpages for me.
+
+The installation location was weird. It was `/home/linuxbrew`, which was owned by root, but the folders inside were owned by the current user. However, [Homebrew documentation for linux](https://docs.brew.sh/Homebrew-on-Linux) does suggest a multi-user system can share a brew installation.
+
+After following the instructions from the installer output, this line was in my `~/.bashrc`:
+
+```
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+```
+
+This loads the necessary dependencies on my PATH, for my shell only. This allows me to run brew installed packages, view their manpages, etc.
+
+For a bit of extra insulation, I intead configured my bash shell to only make brew available when I ask for it:
+
+```bash
+alias usebrew='if [[ -z "`command -v brew`" ]]; then
+        eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)";
+    else
+        echo brew is already available;
+    fi'
+```
+
+This allows me to selectively use brew and its packages only in shell sessions where I call `usebrew`.
+
+For my troubles, `/home/linuxbrew` took up several hundred megabytes of space, which is a somewhat lower startup cost than downloading and using the first graphical Flatpak on a given system.
+
+For now, I give Homebrew the thumbs up.
+
+
+<!-- Markdeep: --><script>if (document.querySelector(".markdeep-script") == null) { document.write("<script class='markdeep-script' src='../cmd/js/markdeep.js'>" + "<" + "/script>"); }</script></pre><script>window.alreadyProcessedMarkdeep||(document.body.style.visibility="visible")</script>
+<!-- Optional page style: --><script>if (document.querySelector(".markdeep-style") == null) { document.querySelector("head").innerHTML += "<link rel='stylesheet' class='markdeep-style' href='../cmd/css/markdeep.css'" + " " + "/>"; }</script>
+</body></html>
