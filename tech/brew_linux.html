@@ -53,6 +53,22 @@ For my troubles, `/home/linuxbrew` took up several hundred megabytes of space, w
 
 For now, I give Homebrew the thumbs up.
 
+# Custom installation path
+
+It turns out that installing Homebrew on Linux to a custom installation path is relatively straightforward. From the official `install.sh`:
+
+```bash
+  # On Linux, this script installs to /home/linuxbrew/.linuxbrew only
+  HOMEBREW_PREFIX="/home/linuxbrew/.linuxbrew"
+```
+
+If you download the file before you run it, the value assigned to `HOMEBREW_PREFIX` can be changed to any directory the current user has permission to create, by editing the file at this line. For example:
+
+```bash
+  # On Linux, this script installs to /home/linuxbrew/.linuxbrew only
+  HOMEBREW_PREFIX="$HOME/.linuxbrew"
+```
+
 
 <!-- Markdeep: --><script>if (document.querySelector(".markdeep-script") == null) { document.write("<script class='markdeep-script' src='../cmd/js/markdeep.js'>" + "<" + "/script>"); }</script></pre><script>window.alreadyProcessedMarkdeep||(document.body.style.visibility="visible")</script>
 <!-- Optional page style: --><script>if (document.querySelector(".markdeep-style") == null) { document.querySelector("head").innerHTML += "<link rel='stylesheet' class='markdeep-style' href='../cmd/css/markdeep.css'" + " " + "/>"; }</script>
