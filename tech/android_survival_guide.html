@@ -74,7 +74,7 @@ For a git repository, it doesn't matter if the repository is on a code forge, or
 This is an interesting connectivity method that I have to share. The Android device connects to the computer directly, no cable or internet access required. I've used this to connect to a webserver and an ssh daemon running on the computer, but I'm sure a lot of other servers could work. The downside is that the computer cannot connect to wifi at the same time.
 
 1. Run a server on your computer
-2. Configure your computer's firewall to allow incoming traffic to the port(s) your server is running on
+2. Configure your computer's firewall to allow incoming traffic to the port(s) your server is running on. You may also need to allow incoming traffic to the DHCP port (67), especially when connecting a device for the first time.
 3. Set your computer as a wifi hotspot
 4. Connect your Android device to your computer as your wifi connection
 5. Figure out the IP address your computer assigned to itself (ex: by running `ifconfig` on your computer)
