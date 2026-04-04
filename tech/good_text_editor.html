@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html contenteditable="true"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+</head>
+<body><pre class="noformat" style="white-space: pre-wrap;">**Features of good text editors**
+
+This page attempts to give names to the many things which make a text editor "good". This is challenging because it is subjective, and the language used is not consistent between editors.
+
+Most good text editors don't have all of these features. However, if you have a favorite text editor(s), chances are it already has most of these features already. If you don't think it does, check and see if it has it built-in, and if not then see if it has a plugin for that feature. You might be pleasantly surprised! So, consider these suggestions to make the most of your text editor.
+
+-- [abstractsun](../)
+
+# Fast
+
+A good text editor starts up fast and feels responsive.
+
+# General-purpose
+
+A good text editor should allow opening any file type with any file name, regardless if it's a good idea to do so. In addition, it should:
+
+- Autodetect the different line ending types (LF vs CRLF), display them correctly, and guess the correct line ending type when you add new lines.
+- Support opening various text encodings, especially Unicode (UTF-8). If the text editor is a GUI, it should choose a font with good Unicode support.
+- Have a way to tell you the encoding and line ending of the text you are currently editing.
+
+# Documentation
+
+A good text editor documents its features thoroughly so that its users can make the most use of its features. Ideally, this documentation should be accessible from the editor, and available offline.
+
+Documentation can take many forms, such as a cheatsheet, manual, or tutorial.
+
+# Syntax highlighting
+
+A good text editor supports optional syntax highlighting. It should allow changing the syntax highlighting rules for the current file, and support custom syntax highlighting.
+
+Bonus points if the text editor supports conditionally changing the syntax highlighting mode in embedded languages and code blocks.
+
+# Loads large files
+
+A good text editor can load files megabytes in size with syntax highlighting enabled, while still feeling responsive.
+
+A good text editor can also load large files - sometimes tens or hundreds of megabytes in size - without crashing, and in a reasonable period of time. Ideally, syntax highlighting should fail gracefully in those cases.
+
+A good text editor may support memory mapping, which allows opening files which are gigabytes in size without loading the whole file into memory at once. This makes loading even the largest files feel fast.
+
+# Tabs
+
+A good text editor supports opening multiple files in the same session to keep things organized. This may be implemented as tabs, panes, and/or hidden buffers that you can jump to.
+
+# Project Drawer
+
+A good text editor generally has some sort of rudimentary file explorer. This may be implemented as a side panel or a special buffer.
+
+A good text editor can show all file types and folders in this view, regardless if it is a good idea to open them.
+
+# Search and replace
+
+A good text editor can search and replace not only within the contents of the current file, but also the contents of arbitrary files or folders of your choosing. In addition, it should:
+
+- Support regular expressions
+- Support finding all matches and displaying them in a search result list, with the option to jump to a given match
+- Support bulk replace among multiple files
+
+# Workspaces
+
+A good text editor has the concept of multiple workspaces, and makes it easy to save and load them.
+
+# Distraction-free
+
+A good text editor allows for disabling GUI elements you don't want, to allow for focused editing.
+
+A good text editor may also support centering the current text. This is sometimes combined into a setting called, "distraction free mode," which also temporarily disables a bunch GUI elements and puts you in fullscreen.
+
+# Jump-to-definition
+
+A good text editor supports jumping to files (including line numbers) and ctags keywords in the text. This allows for fluid navigation between files, while keeping the text editor very fast. The jump-to-definition should save jump history, so that you can jump back to where you were before afterward.
+
+Bonus points if the text editor allows for "clicking" on links to open in the host system, especially if it supports alternative schemas like `file:///`.
+
+# File format configuration
+
+A good text editor has support for the basic features of [EditorConfig](https://editorconfig.org/), so you can define whitespace behavior for various files, keeping them consistent.
+
+It should also allow configuring whitespace behavior for the current file or session as needed.
+
+# Line folding
+
+A good text editor lets you fold away lines that you don't want to look at. It should support folding by indentation or syntax where appropriate.
+
+# Bookmarks
+
+A good text editor lets you mark lines you want to return to in a file later, which is useful for larger files.
+
+# Buffers
+
+A good text editor may rarely, and even more rarely delightfully, support performing black magic such that the file and window are not 1:1. This includes:
+
+- Split view of the same file at different locations in the file
+- Transclusion - Embedding full or partial contents of a text file inside another text file, for a dashboard-like view, usually by the editor interpreting syntax
+- Narrowing - Editing a smaller subset of a file as if it is the whole file.
+
+
+<!-- Markdeep: --><script>if (document.querySelector(".markdeep-script") == null) { document.write("<script class='markdeep-script' src='../cmd/js/markdeep.js'>" + "<" + "/script>"); }</script></pre><script>window.alreadyProcessedMarkdeep||(document.body.style.visibility="visible")</script>
+<!-- Optional page style: --><script>if (document.querySelector(".markdeep-style") == null) { document.querySelector("head").innerHTML += "<link rel='stylesheet' class='markdeep-style' href='../cmd/css/markdeep.css'" + " " + "/>"; }</script>
+</body></html>
