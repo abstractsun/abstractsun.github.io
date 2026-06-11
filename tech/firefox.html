@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html contenteditable="true"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+</head>
+<body><pre class="noformat" style="white-space: pre-wrap;">**Cool Firefox things**
+
+[abstractsun](../): There are a lot of things that you can do in Firefox. These are a few of my favorite features that you might not know about unless someone told you. They include quality-of-life improvements, theming, and technical tools. Most of these tips are for Firefox Desktop, but some work for Firefox mobile as well.
+
+# Features
+
+## Offline translations
+
+Firefox has translations. They are offline and private. You can translate text on a page by highlighting it, right-clicking it, and selecting "Translate Selection to English". Despite what the button says, you can translate the selected text to/from any language that Firefox supports.
+
+As a bonus: if you navigate to `about:translations` in the address bar, you can do translations on that page too.
+
+## Alternative mobile icons
+
+Firefox mobile has a selection of cool alternative icons you can use, including a [cute cartoon version by momo](https://blog.mozilla.org/en/firefox/momo-creator/).
+
+## `about:config`
+
+Firefox's advanced settings can be found by navigating to `about:config` in the address bar. Proceed with caution!
+
+## `about:about`
+
+See all the about pages! As usual, navigate to `about:about` directly in the address bar.
+
+## Tab groups
+
+I like organizing my tabs with Firefox's new built-in tab group feature. It lets me collapse a bunch of tabs that I'm not currently interested in.
+
+## Vertical tabs
+
+This allows me to take better advantage of my screen real estate. This in combination with tab groups have replaced the Tree-Style Tab plugin for me.
+
+There are a couple caveats. Firefox's tab preview tends to overlap with vertical tabs in a distracting way, so I worked around this by going into `about:config` and disabling `browser.tabs.hoverPreview.enabled`. But this has the side-effect of making Firefox's tab notes not show up on mouseover.
+
+## Web Developer Tools
+
+You probably already know about inspect element, but did you know that you also can?:
+
+- Delete the cookies and storage for the current tab
+- Monitor network requests
+- Add the contenteditable property to an HTML element to make it editable in-place directly on the webpage
+- Use a javascript debugger, with support for breakpoints and debug printing (no IDE needed!)
+- Switch the console input to a multi-line editor mode
+
+# Extensions
+
+## Disable extension auto-update
+
+Not a extension per-se, but a useful thing to know: If you don't fully trust an extension creator, you can disable auto-updating for some or all extensions. Alternatively, if you're not currently using an extension, you can disable it.
+
+## [μBlock Origin](https://addons.mozilla.org/en-US/firefox/addon/ublock-origin/)
+
+The standard ad-blocker, aka uBlock Origin, is a must-have extension for security, privacy, and performance. It works best in Firefox (and other browsers using the same engine) due to more dynamic filtering support.
+
+In addition to its default filters, μBlock Origin comes with additional filters you can enable as needed. For example, "Block Outsider Intrusion into LAN" prevents websites from port-scanning your local network. There are also filters which hide various annoyances. There are also community-maintained filters which can block all sorts of things. Unlike the default filters, these are slightly more likely to break things, so keep that in mind.
+
+For advanced users, μBlock Origin can be configured to have more broad blocking similar to NoScript. This includes disabling scripts, large media, fonts, and/or third-party scripts by default, with the option to override for individual websites. These settings can have benefits for privacy, security, and/or bandwidth, but have the downside of requiring manual intervention.
+
+## [Auto Tab Discard](https://addons.mozilla.org/en-US/firefox/addon/auto-tab-discard/)
+
+This neat extension automatically unloads tabs after a certain period of time by default. Discard time is configurable, and you can also choose to discard only certain websites under certain conditions. You can also manually select tabs to keep or discard.
+
+I started searching for a extension for this because I had a lot of tabs open, and certain websites were using a lot of CPU time.
+
+## [Firefox Multi-Account Containers](https://addons.mozilla.org/en-US/firefox/addon/multi-account-containers/)
+
+This extension fills the gap between tabs and profiles. You get the lightweight feel of tabs, while still being able to be logged into different accounts on the same website. Tabs are color-coded for what container they are in. Simply right click on the new tab button, or right click on a link &gt; "Open Link in New Container Tab", and the resulting tab gets opened in the container you select.
+
+## [Cookie Quick Manager](https://addons.mozilla.org/en-US/firefox/addon/cookie-quick-manager/)
+
+This is a great extension for fine-grained management of cookies, and it supports multi-account containers.
+
+## [Temporary Containers](https://addons.mozilla.org/en-US/firefox/addon/temporary-containers/)
+
+This is a companion extension for multi-account containers, which is a more lightweight alternative to private windows, plus you can easily open multiple separate sessions. I have it configured to only open temporary containers when I ask.
+
+## [Dark Reader](https://addons.mozilla.org/en-US/firefox/addon/darkreader/)
+
+This handy extension themes your webpages to dark theme. It can be configured to automatically switch between light and dark depending on Firefox's light/dark theme. Firefox can also be configured to use light/dark depending on what your operating system is using.
+
+Sadly, in a webpage using [Cursed Markdeep](../cmd), if you save the webpage in edit mode while Dark Reader's dark theme is active, the dark theme css gets saved in the page, which breaks the theme and causes the page to render as light when you reload the page. As a workaround, you can press Alt+Shift+A to temporarily disable dark theming before saving the page. I hope to add a warning for this in the future.
+
+## [Adaptive Tab Bar Color](https://addons.mozilla.org/en-US/firefox/addon/adaptive-tab-bar-colour/)
+
+Also known as Adaptive Tab Bar Colour, this extension automatically changes Firefox's theme colors to match the currently loaded webpage. It's a bit jarring at first, but can provide a more streamlined look with very little effort, and the default tab text contrast is quite good.
+
+</pre>
+<!-- Markdeep: --><script>if (document.querySelector(".markdeep-script") == null) { document.write("<script class='markdeep-script' src='../cmd/js/markdeep.js'>" + "<" + "/script>"); }</script></pre><script>window.alreadyProcessedMarkdeep||(document.body.style.visibility="visible")</script>
+<!-- Optional page style: --><script>if (document.querySelector(".markdeep-style") == null) { document.querySelector("head").innerHTML += "<link rel='stylesheet' class='markdeep-style' href='../cmd/css/markdeep.css'" + " " + "/>"; }</script>
+</body></html>

@@ -22,7 +22,9 @@ Oh boy, are there limitations!
 
 For whatever reason, Firefox's "Web Page, HTML only" saving mode doesn't save your work and just saves the original page [^cursed]. So, I have to use "Web Page, complete". This has the side-effect of Firefox copying scripts, images, or other included files in the page, and rewriting the URLs in the page. To get around this, the Markdeep script is not included directly, but is instead injected into the page using a small helper script [^document.write]. Markdown's convention for images also bypasses Firefox's page-saving, so this works surprisingly well!
 
-In addition, you can't write raw HTML in the noformat mode, like you would be able to when editing the file in a text editor. However, it's still possible to add arbitrary HTML via inspect element or copy-paste, so it's doable.
+The saving mode also has an issue with the Dark Reader plugin: if you save the webpage in edit mode while Dark Reader's dark theme is active, the dark theme css gets saved in the page, which breaks the theme and causes the page to render as light when you reload the page. As a workaround, you can press Alt+Shift+A to temporarily disable dark theming before saving the page. I hope to add a warning for this in the future.
+
+On the editing side, you can't write raw HTML in the noformat mode, like you would be able to when editing the file in a text editor. However, it's still possible to add arbitrary HTML via inspect element or copy-paste, so it's doable.
 
 Last of all, this editing method doesn't work from mobile devices. But in that case, it's probably best to just run a webserver on your phone, edit the Markdeep files the usual way from a text editor on said phone, and call it a day.
 
